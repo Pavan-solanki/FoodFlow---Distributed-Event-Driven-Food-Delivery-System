@@ -32,15 +32,6 @@ graph TD
     Order -.->|Push Updates| User
     Gateway -->|Fail Fast| Resilience[Resilience4j Circuit Breaker Fallback]
 
-
-## 🚀 Key Features
-
-⚡ Event-Driven Architecture — Kafka decouples services for massive scalability.
-
-🔄 Real-Time Bi-Directional Updates — WebSockets deliver sub-50ms order status changes.
-
-🛡 Circuit Breakers & Fallbacks — Resilience4j ensures fault tolerance.
-
 💳 Distributed Transactions (Saga Pattern) — Handles success + compensating flows.
 
 🌐 API Gateway Abstraction — Frontend talks only to :8080.
