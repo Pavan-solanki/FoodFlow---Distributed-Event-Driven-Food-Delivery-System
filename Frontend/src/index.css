@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Urbanist:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+/* @tailwind base;
+@tailwind components; */
+@tailwind utilities;
+
+/* Global Styles */
+body {
+  font-family: 'Urbanist', sans-serif;
+  /* Modern, clean text like Swiggy */
+  background-color: #f8f8f8;
+  /* Light grey background */
+  color: #1c1c1c;
+}
+
+/* The Special Logo Font */
+.font-brand {
+  font-family: 'Lobster', cursive;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff4d4d;
+  border-radius: 4px;
+}
