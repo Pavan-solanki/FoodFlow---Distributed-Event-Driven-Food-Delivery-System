@@ -31,9 +31,3 @@ graph TD
 
     Order -.->|Push Updates| User
     Gateway -->|Fail Fast| Resilience[Resilience4j Circuit Breaker Fallback]
-
-💳 Distributed Transactions (Saga Pattern) — Handles success + compensating flows.
-
-🌐 API Gateway Abstraction — Frontend talks only to :8080.
-
-🔍 Observability — Micrometer + Zipkin for distributed tracing.
