@@ -45,4 +45,89 @@ graph TD
 
 ## 💡 Saga Lifecycle
 
+Success Path: Order Placed → Wallet Deducted → Inventory Reserved → Order Confirmed
+Failure Path: Order Placed → Insufficient Funds → Compensating Event → Order Cancelled
 
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology |
+|----------|------------|
+| Backend | Java 17, Spring Boot 3.3 |
+| Frontend | React.js, Redux Toolkit, Tailwind CSS, Vite |
+| Message Broker | Apache Kafka (KRaft Mode) |
+| Database | PostgreSQL |
+| API Gateway | Spring Cloud Gateway |
+| Real-Time | Spring WebSocket (STOMP), SockJS |
+| Resilience | Resilience4j |
+| Observability | Micrometer, Zipkin |
+| Containerization | Docker, Docker Compose |
+
+---
+
+## 📸 Screenshots
+
+| Screenshot | Example |
+|-----------|---------|
+<img width="1868" height="893" alt="Screenshot 2025-11-29 154319" src="https://github.com/user-attachments/assets/c9729b4f-9f95-4579-ab49-ec0eb7a7a803" />
+<img width="1819" height="878" alt="Screenshot 2025-11-29 154334" src="https://github.com/user-attachments/assets/41f2f04f-3a22-41e0-82b6-ba898ed5633b" />
+<img width="1869" height="869" alt="Screenshot 2025-11-29 154402" src="https://github.com/user-attachments/assets/f74e05d8-80d8-4534-aff1-07be73dcf37b" />
+
+
+
+---
+
+## 🏃 Getting Started Locally
+
+### 📌 Prerequisites
+- Java 17+
+- Node.js & npm
+- Docker Desktop running
+
+---
+
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/Pavan-solanki/FoodFlow.git
+cd FoodFlow
+
+2️⃣ Start Infrastructure (Kafka, Postgres, Zipkin)
+docker-compose up -d
+
+
+⏳ Wait 30 seconds for Kafka to initialize.
+
+3️⃣ Start Microservices (in this order)
+Service	Port
+API Gateway	8080
+Order Service	8081
+Payment Service	8082
+Inventory Service	8083
+
+Run each Spring Boot app from your IDE.
+
+4️⃣ Start Frontend
+cd foodflow-frontend
+npm install
+npm run dev
+
+
+Open in browser:
+
+http://localhost:5173
+
+🔗 API & WebSocket Endpoints
+Service	Method	Endpoint	Description
+Gateway	POST	/orders	Place a new order
+Gateway	GET	/orders/{id}	Get order status
+Gateway	GET	/payments/wallet	Get wallet balance
+Gateway	GET	/fallback/order	Circuit breaker fallback
+WebSocket	WS	/ws	Real-time push notifications
+👨‍💻 Author
+
+Pavan Solanki — Full Stack Developer
+
+⭐ If this project helped you, please consider starring the repo!
+Made with ❤️ using Java, Spring Boot, Kafka & React
