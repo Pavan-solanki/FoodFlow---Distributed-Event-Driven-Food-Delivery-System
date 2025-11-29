@@ -1,0 +1,30 @@
+package com.foodflow.orderservice.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        // This enables a simple memory-based message broker to carry messages back to the client on destinations prefixed with "/topic"
+        config.enableSimpleBroker("/topic");
+
+        // This prefix is used for messages bound for methods annotated with @MessageMapping
+        config.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // React will connect to this URL: http://localhost:8080/ws
+        // We allow all origins just like we did in the Gateway
+        registry.addEndpoint("/ws")
+                .setAllowedOriginPatterns("*")
+                .withSockJS(); // Enables fallback options if WebSocket fails
+    }
+}

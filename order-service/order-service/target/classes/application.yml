@@ -1,0 +1,46 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: order-service
+
+  # Database Configuration (KEEP THIS)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/foodflow_db
+    username: postgres
+    password: "0000"
+    driver-class-name: org.postgresql.Driver
+
+  # JPA Settings (KEEP THIS)
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    # Producer (Sending "New Order")
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+    # Consumer (Listening for "Order Ready") - NEW ADDITION
+    consumer:
+      group-id: order-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+    management:
+      tracing:
+        sampling:
+          probability: 1.0 # Trace 100% of requests (For Dev)
+      zipkin:
+        tracing:
+          endpoint: "http://localhost:9411/api/v2/spans"

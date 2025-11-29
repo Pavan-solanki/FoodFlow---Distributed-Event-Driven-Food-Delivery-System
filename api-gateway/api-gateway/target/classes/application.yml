@@ -1,0 +1,76 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      # THE FIX IS HERE:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"  # Your React App
+              - "http://localhost:3000"  # Alternate React Port
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS  # Important for "Preflight" checks
+            allowedHeaders: "*"
+            allowCredentials: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+
+      routes:
+        # Route 1: Order Service (With Circuit Breaker)
+        - id: order-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/orders/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: orderCircuitBreaker
+                fallbackUri: forward:/fallback/order
+
+        # Route 2: Payment Service (With Circuit Breaker)
+        - id: payment-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/payments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: paymentCircuitBreaker
+                fallbackUri: forward:/fallback/payment
+
+        # Route 3: Inventory Service (With Circuit Breaker)
+        - id: inventory-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/inventory/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: inventoryCircuitBreaker
+                fallbackUri: forward:/fallback/inventory
+
+        # Route 4: WebSockets (No Circuit Breaker needed for WS handshake)
+        - id: order-service-ws
+          uri: http://localhost:8081
+          predicates:
+            - Path=/ws/**
+
+    management:
+      tracing:
+        sampling:
+          probability: 1.0 # Trace 100% of requests (For Dev)
+      zipkin:
+        tracing:
+          endpoint: "http://localhost:9411/api/v2/spans"

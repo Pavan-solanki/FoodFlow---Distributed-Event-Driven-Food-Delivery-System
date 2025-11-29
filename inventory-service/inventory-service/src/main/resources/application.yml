@@ -1,0 +1,29 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: inventory-service
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    # Consumer (Listening for "Payment Success")
+    consumer:
+      group-id: inventory-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+    # Producer (Sending "Order Ready") - NEW ADDITION
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+    management:
+      tracing:
+        sampling:
+          probability: 1.0 # Trace 100% of requests (For Dev)
+      zipkin:
+        tracing:
+          endpoint: "http://localhost:9411/api/v2/spans"
