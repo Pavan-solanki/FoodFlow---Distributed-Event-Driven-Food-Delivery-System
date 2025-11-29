@@ -31,7 +31,7 @@ graph TD
 
     Order -.->|Push Updates| User
     Gateway -->|Fail Fast| Resilience[Resilience4j Circuit Breaker Fallback]
-
+```
 ## 🚀 Key Features
 
 - ⚡ **Event-Driven Architecture** — Kafka decouples services for massive scalability.
